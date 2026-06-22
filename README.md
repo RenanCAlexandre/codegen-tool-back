@@ -43,7 +43,7 @@ codegen-tool/
 
 ```
 
-A **extensão do Chrome** fica em um diretório separado, https://gitlab.com/valcedir2/codegen-tool-chrome-extension
+A **extensão do Chrome** fica em um diretório separado, [https://gitlab.com/valcedir2/codegen-tool-chrome-extension](https://github.com/RenanCAlexandre/codegen-tool-extension)
 
 ---
 
