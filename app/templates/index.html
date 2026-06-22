@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <title>CodegenTool — Visualização de Código</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet"/>
+
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" defer></script>
+
+  <script>
+    window.tailwind = {
+      config: {
+        theme: {
+          extend: {
+            colors: {
+              brand: "#4F46E5",
+              "brand-600": "#4338CA",
+              ink: "#0F172A",
+              muted: "#64748B",
+              panel: "#0B1220",
+              panelBorder: "#111827",
+              codebg: "#1E1E2F",
+              codefg: "#F8F8F2",
+              surface: "#F9FAFB"
+            },
+            fontFamily: {
+              sans: ["Inter", "ui-sans-serif", "system-ui", "-apple-system", "Segoe UI", "Roboto", "Arial", "sans-serif"],
+            },
+            borderRadius: {
+              "2xl": "1rem",
+            },
+            boxShadow: {
+              card: "0 8px 24px rgba(0,0,0,0.08)",
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root{
+      --color-bg:#FFFFFF; --color-fg:#111; --color-primary:#4F46E5; --color-primary-600:#4338CA;
+      --color-muted:#6B7280; --radius-2xl:1rem; --shadow-md:0 8px 24px rgba(0,0,0,.08);
+      --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px; --space-6:24px; --space-8:32px;
+      --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Inter, Arial, sans-serif;
+      --font-size-100:12px; --font-size-200:14px; --font-size-300:16px; --font-size-400:18px; --font-size-600:24px; --font-size-800:32px;
+      --line-compact:1.2; --line-default:1.5;
+    }
+    @media (prefers-reduced-motion: reduce) { *{ transition:none !important; animation-duration:0ms !important; } }
+    body{ font-family: var(--font-sans); }
+  </style>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      if (window.hljs && hljs.highlightAll) hljs.highlightAll();
+    });
+  </script>
+</head>
+
+<body class="bg-surface text-ink antialiased">
+
+  <header class="pt-10 pb-4">
+    <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
+        CodegenTool — Códigos Gerados
+      </h1>
+      <p class="mt-2 text-base sm:text-lg text-slate-600">
+        Visualize os códigos capturados pela extensão em HTML + CSS, Bootstrap e Tailwind.
+      </p>
+    </div>
+  </header>
+
+  <main class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    <div class="grid lg:grid-cols-12 gap-8">
+      <section class="lg:col-span-8 space-y-8">
+        <section class="rounded-2xl overflow-hidden border border-slate-800 shadow-lg">
+          <div class="bg-slate-900 text-slate-100 flex items-center justify-between px-4 py-2">
+            <h2 class="text-sm sm:text-base font-semibold">HTML + CSS</h2>
+            <button
+              class="inline-flex items-center gap-2 text-sm font-medium px-3 py-1.5 rounded-md
+                     bg-slate-100 text-slate-900 hover:bg-white
+                     focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-400"
+              onclick="copyCode('base')" aria-label="Copiar código HTML + CSS">
+              Copiar
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+            </button>
+          </div>
+          <div class="bg-slate-800">
+            <pre class="text-slate-100 text-[13px] md:text-sm p-4 overflow-x-auto">
+<code id="base" class="language-html"><span class="text-slate-300 font-mono">Carregando...</span></code>
+            </pre>
+          </div>
+        </section>
+
+        <div class="grid gap-8 lg:grid-cols-2">
+          <section class="rounded-2xl overflow-hidden border border-slate-800 shadow-lg">
+            <div class="bg-slate-900 text-slate-100 flex items-center justify-between px-4 py-2">
+              <h2 class="text-sm sm:text-base font-semibold">Bootstrap</h2>
+              <button
+                class="inline-flex items-center gap-2 text-sm font-medium px-3 py-1.5 rounded-md
+                       bg-slate-100 text-slate-900 hover:bg-white
+                       focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-400"
+                onclick="copyCode('bootstrap')" aria-label="Copiar código Bootstrap">
+                Copiar
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+              </button>
+            </div>
+            <div class="bg-slate-800">
+              <pre class="text-slate-100 text-[13px] md:text-sm p-4 overflow-x-auto">
+<code id="bootstrap" class="language-html"><span class="text-slate-300 font-mono">Carregando...</span></code>
+              </pre>
+            </div>
+          </section>
+
+          <section class="rounded-2xl overflow-hidden border border-slate-800 shadow-lg">
+            <div class="bg-slate-900 text-slate-100 flex items-center justify-between px-4 py-2">
+              <h2 class="text-sm sm:text-base font-semibold">Tailwind</h2>
+              <button
+                class="inline-flex items-center gap-2 text-sm font-medium px-3 py-1.5 rounded-md
+                       bg-slate-100 text-slate-900 hover:bg-white
+                       focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-400"
+                onclick="copyCode('tailwind')" aria-label="Copiar código Tailwind">
+                Copiar
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+              </button>
+            </div>
+            <div class="bg-slate-800">
+              <pre class="text-slate-100 text-[13px] md:text-sm p-4 overflow-x-auto">
+<code id="tailwind" class="language-html"><span class="text-slate-300 font-mono">Carregando...</span></code>
+              </pre>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <aside class="lg:col-span-4">
+        <section class="bg-white rounded-2xl border border-slate-200 p-6 shadow sticky top-8" role="region" aria-label="Instruções de uso">
+          <h2 class="text-base font-semibold text-slate-900 mb-3">Como usar</h2>
+          <ol class="list-decimal list-inside space-y-1 text-slate-700">
+            <li>Acesse uma página em outra aba.</li>
+            <li>Ative a captura no popup da extensão.</li>
+            <li>Clique em qualquer elemento (botão, input, etc.).</li>
+            <li>Volte aqui para ver o código gerado.</li>
+          </ol>
+          <p class="mt-4 text-sm text-muted">
+            Dica: use <kbd class="px-1.5 py-0.5 bg-slate-100 rounded border">Tab</kbd> para navegar por teclado. O foco é sempre visível.
+          </p>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="border-t">
+    <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center">
+      <small class="text-xs text-slate-500">&copy; 2025 CodegenTool. Todos os direitos reservados.</small>
+    </div>
+  </footer>
+
+  <script>
+    function copyCode(id) {
+      const text = document.getElementById(id)?.textContent ?? "";
+      navigator.clipboard.writeText(text)
+        .then(() => alert("Código copiado!"))
+        .catch(() => alert("Não foi possível copiar o código."));
+    }
+
+    async function atualizarCodigos() {
+      try {
+        const res = await fetch("/api/latest-code", { cache: "no-store" });
+        if (!res.ok) return;
+        const data = await res.json();
+        const base = document.getElementById("base");
+        const bs = document.getElementById("bootstrap");
+        const tw = document.getElementById("tailwind");
+        if (base) base.textContent = data.base ?? "";
+        if (bs)   bs.textContent   = data.bootstrap ?? "";
+        if (tw)   tw.textContent   = data.tailwind ?? "";
+        if (window.hljs && hljs.highlightAll) hljs.highlightAll();
+      } catch (err) {
+        console.error("Erro ao carregar códigos:", err);
+      }
+    }
+
+
+    atualizarCodigos();
+
+    setInterval(atualizarCodigos, 3000);
+  </script>
+</body>
+</html>
