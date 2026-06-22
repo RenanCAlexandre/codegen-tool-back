@@ -5,6 +5,7 @@ from .utils import normalize_style, parse_element, dedupe_ordered
 class BootstrapGenerator:
     def __init__(self):
         self._size_tol = 1.5
+
         # Escalas Bootstrap
         self._SPACING = {0:"0", 4:"1", 8:"2", 16:"3", 24:"4", 48:"5"}
         self._FS = {12:"fs-6", 14:"fs-5", 16:"fs-4", 20:"fs-3", 24:"fs-2", 32:"fs-1"}
@@ -22,7 +23,7 @@ class BootstrapGenerator:
             r"^shadow", r"^cursor-", r"^w-", r"^h-", r"^min-w-", r"^min-h-", r"^max-w-", r"^max-h-",
         ]
 
-    # ---- helpers básicos
+    
     def _first(self, props, *names):
         for n in names:
             if n in props:
@@ -37,7 +38,6 @@ class BootstrapGenerator:
         s = str(v).strip()
         return float(s[:-1]) if s.endswith("%") and s[:-1].replace(".", "", 1).isdigit() else None
 
-    # ---- mapeamentos
     def _bg_color(self, v):  return self._BG.get(str(v).lower())
     def _text_color(self, v): return self._TEXT.get(str(v).lower())
 

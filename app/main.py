@@ -1,5 +1,3 @@
-# app/main.py
-
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 from datetime import datetime
@@ -9,9 +7,9 @@ from converters.bootstrap_generator import BootstrapGenerator
 from converters.tailwind_generator import TailwindGenerator
 
 app = Flask(__name__)
-CORS(app, origins=["*", "chrome-extension://*"])  # Libera CORS para localhost e extensão
+CORS(app, origins=["*", "chrome-extension://*"])
 
-# Instâncias únicas (evita reprocessar a cada requisição)
+
 base_engine = BaseGenerator()
 bootstrap_engine = BootstrapGenerator()
 tailwind_engine = TailwindGenerator()
@@ -45,7 +43,6 @@ def convert():
         if not html_raw.strip():
             return jsonify({"ok": False, "error": "Missing 'element_outer_html'"}), 400
 
-        # Normalização base
         base_html = base_engine.generate(html_raw)
         bootstrap_html = bootstrap_engine.generate(base_html)
         tailwind_html = tailwind_engine.generate(base_html)

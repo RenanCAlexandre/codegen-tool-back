@@ -1,5 +1,3 @@
-// app/static/js/detector.js
-
 document.addEventListener("click", function (event) {
   const el = event.target;
 

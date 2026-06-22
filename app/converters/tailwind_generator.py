@@ -15,13 +15,11 @@ class TailwindGenerator:
         self._TEXT = {"#000000":"text-black","#ffffff":"text-white","#333333":"text-neutral-700"}
         self._BORDER_COLOR = {"#000000":"border-black","#ffffff":"border-white","#007bff":"border-blue-600","#333333":"border-neutral-700"}
 
-        # remover Bootstrap já presente
         self._BS_PATTERNS = [r"^btn", r"^d-", r"^fs-", r"^lh-", r"^text-(primary|secondary|success|danger|warning|info|light|dark|black|white)$",
                              r"^bg-(primary|secondary|success|danger|warning|info|light|dark|black|white)$",
                              r"^(p|px|py|pt|pr|pb|pl|m|mx|my|mt|mr|mb|ml)-", r"^rounded(-\d)?$", r"^border(-\d)?$", r"^position-", r"^(top|bottom|start|end)-",
                              r"^opacity-\d+$", r"^shadow"]
 
-    # ---- helpers
     def _first(self, props, *names):
         for n in names:
             if n in props:
@@ -37,7 +35,6 @@ class TailwindGenerator:
         return float(s[:-1]) if s.endswith("%") and s[:-1].replace(".", "", 1).isdigit() else None
     def _arb(self, prefix, raw): return f"{prefix}-[{raw}]" if self.allow_arbitrary else None
 
-    # ---- mapeamentos
     def _bg(self, v):
         key = str(v).lower()
         return self._BG.get(key, self._arb("bg", key))
@@ -204,7 +201,6 @@ class TailwindGenerator:
     def _filter_bootstrap(self, classes):
         return [c for c in classes if not any(re.search(p, c) for p in self._BS_PATTERNS)]
 
-    # ---- principal
     def generate(self, html_raw: str) -> str:
         el = parse_element(html_raw)
         props = normalize_style(el.style_dict)

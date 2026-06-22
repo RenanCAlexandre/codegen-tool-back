@@ -15,7 +15,6 @@ class ParsedElement:
         self._node = node
 
     def replace_classes(self, new_classes):
-        """Substitui classes no HTML e retorna HTML atualizado."""
         self._node['class'] = new_classes
         return str(self._node)
 
@@ -52,18 +51,13 @@ def parse_element(html_raw: str):
         else:
             existing_classes.append(c)
 
-    # 1) Primeiro tenta inline
     style_dict = {}
     inline = node.get("style")
     if inline:
         style_dict.update(_parse_decl_block(inline))
 
-    # 2) Se não houver inline suficiente, busca no <style> pela .<hash>
     if not style_dict and hash_class:
-        # pega TODO o CSS concatenado de todos <style>
         css_text = "\n".join(s.get_text() for s in soup.find_all("style"))
-        # regex tolerante a espaços e quebras de linha
-        # captura o bloco entre { ... } da classe .<hash>
         m = re.search(
             r"\." + re.escape(hash_class) + r"\s*\{\s*([^}]*)\s*\}",
             css_text, flags=re.I | re.M | re.S
@@ -71,7 +65,6 @@ def parse_element(html_raw: str):
         if m:
             style_dict.update(_parse_decl_block(m.group(1)))
 
-    # Normaliza background → p['bg']
     if "background" in style_dict and "background-color" not in style_dict:
         style_dict["background-color"] = style_dict["background"]
 
@@ -89,13 +82,9 @@ def parse_element(html_raw: str):
 # ------------------------------
 
 def normalize_style(style_dict):
-    """
-    Normaliza propriedades: converte px → número, rgb → string simples etc.
-    """
     props = {}
     for k, v in style_dict.items():
         if k in ["font-size", "line-height"]:
-            # extrair número
             m = re.match(r"([\d.]+)", v)
             props[k] = float(m.group(1)) if m else None
         elif k in ["color", "background", "background-color"]:
@@ -142,7 +131,7 @@ def is_color(color: str, kind: str) -> bool:
 
 def sanitize_bootstrap(classes):
     tw_prefixes = (
-        "text-[", "bg-[",  # Permite valores arbitrários
+        "text-[", "bg-[",
         "text-gray-", "bg-gray-",
         "hover:", "focus:",
         "leading-", "font-"

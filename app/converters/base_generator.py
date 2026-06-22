@@ -82,7 +82,6 @@ class BaseGenerator:
 
         styles = parse_inline_style(inline)
 
-        # Adiciona valores default importantes
         if tag.name == "button":
             if "border" not in styles:
                 styles["border"] = "none"
